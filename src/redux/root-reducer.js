@@ -1,8 +1,8 @@
 import { combineReducers } from "@reduxjs/toolkit";
 
-import counterReducer from "../redux/counter/counterSlice";
+import usersReducer from "../redux/users/usersSlice";
 
 const rootReducer = combineReducers({
-    counter: counterReducer});
+    users: usersReducer});
 
 export default rootReducer;
