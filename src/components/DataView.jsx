@@ -1,88 +1,86 @@
 import React from "react";
-import useHttp from "../hooks/useHttp";
-
-import { useQuery } from "react-query";
-import { useSelector } from "react-redux";
+import "./DataView.css";
 
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
+import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { useDispatch } from "react-redux";
+import { deleteUser, editUser } from "../redux/users/usersSlice";
 
-const DataView = () => {
-  const http = useHttp();
-  const users = useSelector((state) => state.users);
+const DataView = ({ users, handleEditOpen, handleDelete }) => {
+  const rows = users.map((user) => ({
+    id: user.id,
+    firstname: user.name["firstname"],
+    lastname: user.name["lastname"],
+    username: user.username,
+    email: user.email,
+    phone: user.phone,
+    city: user.address["city"],
+  }));
 
-  const rows = [];
   const collumns = [
-    { field: "id", headerName: "ID", width: 40 },
+    { field: "id", headerName: "ID", width: 60 },
     {
       field: "firstname",
-      headerName: "First Name",
-      width: 100,
+      headerName: "Nome",
+      width: 110,
       editable: false,
     },
     {
       field: "lastname",
-      headerName: "Last Name",
-      width: 100,
+      headerName: "Sobrenome",
+      width: 110,
       editable: false,
     },
     {
       field: "username",
-      headerName: "Username",
-      width: 100,
+      headerName: "Usuário",
+      width: 110,
       editable: false,
     },
     {
       field: "email",
       headerName: "Email",
-      width: 100,
+      width: 130,
       editable: false,
     },
     {
       field: "phone",
-      headerName: "Phone",
-      width: 100,
-      editable: false,
-    },
-    {
-      field: "password",
-      headerName: "Password",
-      width: 100,
+      headerName: "Telefone",
+      width: 130,
       editable: false,
     },
     {
       field: "city",
-      headerName: "City",
+      headerName: "Cidade",
       width: 100,
       editable: false,
     },
+    {
+      field: "action",
+      headerName: "Ação",
+      width: 150,
+      renderCell: (params) => (
+        <>
+          <Button className="btn_edit" onClick={() => handleEditOpen(params.row)}>
+            <EditIcon></EditIcon>
+          </Button>
+          <Button
+            className="btn_delete"
+            onClick={() => handleDelete(params.row)}
+          >
+            <DeleteIcon></DeleteIcon>
+          </Button>
+        </>
+      ),
+    },
   ];
-
-  users.users.map((user) =>
-    rows.push({
-      id: user.id,
-      firstname: user.name["firstname"],
-      lastname: user.name["lastname"],
-      username: user.username,
-      email: user.email,
-      password: user.password,
-      phone: user.phone,
-      city: user.address["city"]
-    })
-  );
-
-  console.log(rows)
-
-  const { isLoading, error } = useQuery("users", () =>
-    http.get("https://fakestoreapi.com/users")
-  );
-
-  if (isLoading) return <div>Carregando...</div>;
-  if (error) return <div>Erro: {error.message}</div>;
 
   return (
     <>
-      <Box sx={{ height: "95vh", width: "100%" }}>
+      <Box sx={{ height: "80vh", width: "100%" }}>
         <DataGrid
           rows={rows}
           columns={collumns}
@@ -94,6 +92,7 @@ const DataView = () => {
             },
           }}
           pageSizeOptions={[8]}
+          disableColumnSelector
         ></DataGrid>
       </Box>
     </>
