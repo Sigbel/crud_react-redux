@@ -1,4 +1,7 @@
+// Styles
 import "./App.css";
+
+// Components
 import Home from "./components/Home";
 
 function App() {

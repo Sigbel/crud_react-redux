@@ -1,13 +1,14 @@
-import React from "react";
+// Styles
 import "./DataView.css";
 
-import Box from "@mui/material/Box";
+// Material Ui
 import { DataGrid } from "@mui/x-data-grid";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+
+// Material Ui Icons
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { useDispatch } from "react-redux";
-import { deleteUser, editUser } from "../redux/users/usersSlice";
 
 const DataView = ({ users, handleEditOpen, handleDelete }) => {
   const rows = users.map((user) => ({
@@ -64,7 +65,10 @@ const DataView = ({ users, handleEditOpen, handleDelete }) => {
       width: 150,
       renderCell: (params) => (
         <>
-          <Button className="btn_edit" onClick={() => handleEditOpen(params.row)}>
+          <Button
+            className="btn_edit"
+            onClick={() => handleEditOpen(params.row)}
+          >
             <EditIcon></EditIcon>
           </Button>
           <Button

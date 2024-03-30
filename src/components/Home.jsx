@@ -1,17 +1,25 @@
-import React from "react";
+// Styles
 import "./Home.css";
-import DataView from "./DataView";
+
+// Material Ui
 import { Box, Button, Paper } from "@mui/material";
+
+// SVG
+import logo from "../assets/logo.svg";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 
-import logo from "../assets/logo.svg";
-
+// Hooks
 import { useSelector, useDispatch } from "react-redux";
-import useHttp from "../hooks/useHttp";
 import { useQuery } from "react-query";
-import ModalWindow from "./ModalWindow";
 import { useState } from "react";
+import useHttp from "../hooks/useHttp";
+
+// Reducers
 import { deleteUser, editUser } from "../redux/users/usersSlice";
+
+// Components
+import ModalWindow from "./ModalWindow";
+import DataView from "./DataView";
 
 const Home = () => {
   const [open, setOpen] = useState(false);
@@ -21,9 +29,10 @@ const Home = () => {
   const http = useHttp();
 
   const handleOpen = () => {
-    setDataT("")
-    setOpen(true)};
-  const handleClose = () => setOpen(false)
+    setDataT("");
+    setOpen(true);
+  };
+  const handleClose = () => setOpen(false);
 
   const { isLoading, error } = useQuery(
     "users",
@@ -40,9 +49,9 @@ const Home = () => {
   };
 
   const handleEdit = (data) => {
-    dispatch(editUser({id: dataT.id, data: data}))
-    handleClose()
-  }
+    dispatch(editUser({ id: dataT.id, data: data }));
+    handleClose();
+  };
 
   const handleDelete = (user) => {
     dispatch(deleteUser({ id: user.id }));
@@ -59,7 +68,12 @@ const Home = () => {
             <AddBoxIcon className="main-bar-add-icon"></AddBoxIcon>
             <p>Incluir</p>
           </Button>
-          <ModalWindow open={open} setOpen={setOpen} data={dataT} handleEdit={handleEdit}></ModalWindow>
+          <ModalWindow
+            open={open}
+            setOpen={setOpen}
+            data={dataT}
+            handleEdit={handleEdit}
+          ></ModalWindow>
         </Paper>
       </Box>
       <DataView

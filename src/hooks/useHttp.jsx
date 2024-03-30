@@ -1,5 +1,10 @@
+// Axios
 import axios from "axios";
+
+// Hooks
 import { useDispatch } from "react-redux";
+
+// Reducers
 import { setUsers } from "../redux/users/usersSlice";
 
 const useHttp = () => {

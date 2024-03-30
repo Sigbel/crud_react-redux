@@ -1,10 +1,17 @@
-import React from "react";
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
-import Typography from "@mui/material/Typography";
+// Material Ui
 import { TextField, Modal, Box, Button } from "@mui/material";
+import Typography from "@mui/material/Typography";
+
+// Material Ui Icons
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+
+// Hooks
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+// Reducers
 import { addUser } from "../redux/users/usersSlice";
+
 
 const ModalWindow = ({ open, setOpen, data, handleEdit }) => {
   const dispatch = useDispatch();

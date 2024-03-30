@@ -1,10 +1,19 @@
+// React
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
+
+// Styles
 import "./index.css";
+
+// Components
+import App from "./App.jsx";
+
+// Providers
 import { Provider } from "react-redux";
-import store from "./redux/store.js";
 import { QueryClient, QueryClientProvider } from "react-query";
+
+// Store
+import store from "./redux/store.js";
 
 const queryClient = new QueryClient();
 
