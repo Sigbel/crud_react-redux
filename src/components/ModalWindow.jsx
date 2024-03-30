@@ -22,44 +22,52 @@ const ModalWindow = ({ open, setOpen, data, handleEdit }) => {
     p: 4,
   };
 
-  const [modalData, setModalData] = useState({
-    name: { firstname: "", lastname: "" },
-    username: "",
-    email: "",
-    phone: "",
-    address: { city: "" }
-  });
+  const [modalEdit, setModalEdit] = useState({});
+  const [modalData, setModalData] = useState({});
 
   useEffect(() => {
     if (data) {
       setModalData({
-        name: { firstname: data.firstname, lastname: data.lastname },
+        firstname: data.firstname,
+        lastname: data.lastname,
         username: data.username,
         email: data.email,
         phone: data.phone,
-        address: { city: data.city },
+        city: data.city,
       });
     }
   }, [data]);
 
+  useEffect(() => {
+    setModalEdit({
+      name: { firstname: modalData.firstname, lastname: modalData.lastname },
+      username: modalData.username,
+      email: modalData.email,
+      phone: modalData.phone,
+      address: { city: modalData.city },
+    });
+  }, [modalData]);
+
   const handleClose = () => {
     setOpen(false);
     setModalData({
-      name: { firstname: "", lastname: "" },
+      firstname: "",
+      lastname: "",
       username: "",
       email: "",
       phone: "",
-      address: { city: "" }
+      city: "",
     });
   };
 
   const cleanLabels = () => {
     setModalData({
-      name: { firstname: "", lastname: "" },
+      firstname: "",
+      lastname: "",
       username: "",
       email: "",
       phone: "",
-      address: { city: "" }
+      city: "",
     });
   };
 
@@ -109,7 +117,7 @@ const ModalWindow = ({ open, setOpen, data, handleEdit }) => {
           label="Nome"
           variant="outlined"
           name="firstname"
-          value={modalData.name["firstname"]}
+          value={modalData.firstname}
           onChange={handleInputChange}
         ></TextField>
         <TextField
@@ -117,7 +125,7 @@ const ModalWindow = ({ open, setOpen, data, handleEdit }) => {
           label="Sobrenome"
           variant="outlined"
           name="lastname"
-          value={modalData.name["lastname"]}
+          value={modalData.lastname}
           onChange={handleInputChange}
         ></TextField>
         <TextField
@@ -149,15 +157,21 @@ const ModalWindow = ({ open, setOpen, data, handleEdit }) => {
           label="Cidade"
           variant="outlined"
           name="city"
-          value={modalData.address["city"]}
+          value={modalData.city}
           onChange={handleInputChange}
         ></TextField>
         <Box display="flex" justifyContent="flex-end" gap="10px">
           <Button variant="outlined" onClick={() => cleanLabels()}>
             Limpar
           </Button>
-          {modalData.name['firstname'] ? (
-            <Button variant="contained" onClick={() => handleEdit(modalData)}>
+          {data ? (
+            <Button
+              variant="contained"
+              onClick={() => {
+                cleanLabels();
+                handleEdit(modalEdit);
+              }}
+            >
               Editar
             </Button>
           ) : (

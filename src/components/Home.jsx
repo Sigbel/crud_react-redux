@@ -20,7 +20,9 @@ const Home = () => {
   const dispatch = useDispatch();
   const http = useHttp();
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = () => {
+    setDataT("")
+    setOpen(true)};
   const handleClose = () => setOpen(false)
 
   const { isLoading, error } = useQuery(
@@ -39,7 +41,7 @@ const Home = () => {
 
   const handleEdit = (data) => {
     dispatch(editUser({id: dataT.id, data: data}))
-    // handleClose()
+    handleClose()
   }
 
   const handleDelete = (user) => {
