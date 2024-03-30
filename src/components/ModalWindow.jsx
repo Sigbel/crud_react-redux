@@ -53,7 +53,16 @@ const ModalWindow = ({
         phone: data.phone,
         city: data.city,
       });
-    } 
+    } else {
+      setModalData({
+        firstname: "",
+        lastname: "",
+        username: "",
+        email: "",
+        phone: "",
+        city: "",
+      });
+    }
   }, [data]);
 
   useEffect(() => {

@@ -44,6 +44,7 @@ const Home = () => {
 
   const handleConfirmAction = () => {
     if (actionType === "edit") {
+      setDataT(null)
       handleEdit(selectedUser);
     } else if (actionType === "delete") {
       handleDelete(selectedUser)
