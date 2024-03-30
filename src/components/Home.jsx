@@ -28,8 +28,30 @@ const Home = () => {
   const dispatch = useDispatch();
   const http = useHttp();
 
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [actionType, setActionType] = useState("");
+
+  const handleDialogOpen = (user, action) => {
+    setSelectedUser(user);
+    setActionType(action);
+    setConfirmDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setConfirmDialogOpen(false);
+  };
+
+  const handleConfirmAction = () => {
+    if (actionType === "edit") {
+      handleEdit(selectedUser);
+    } else if (actionType === "delete") {
+      handleDelete(selectedUser)
+    }
+    handleDialogClose();
+  };
+
   const handleOpen = () => {
-    setDataT("");
     setOpen(true);
   };
   const handleClose = () => setOpen(false);
@@ -73,6 +95,11 @@ const Home = () => {
             setOpen={setOpen}
             data={dataT}
             handleEdit={handleEdit}
+            handleDialogOpen={handleDialogOpen}
+            confirmDialogOpen={confirmDialogOpen}
+            handleDialogClose={handleDialogClose}
+            handleConfirmAction={handleConfirmAction}
+            actionType={actionType}
           ></ModalWindow>
         </Paper>
       </Box>
@@ -80,6 +107,11 @@ const Home = () => {
         users={users}
         handleEditOpen={handleEditOpen}
         handleDelete={handleDelete}
+        confirmDialogOpen={confirmDialogOpen}
+        handleDialogClose={handleDialogClose}
+        handleConfirmAction={handleConfirmAction}
+        actionType={actionType}
+        handleDialogOpen={handleDialogOpen}
       ></DataView>
     </>
   );

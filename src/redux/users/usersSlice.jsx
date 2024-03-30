@@ -18,7 +18,6 @@ export const usersSlice = createSlice({
       state.users.push(action.payload);
     },
     editUser: (state, action) => {
-      console.log(action.payload);
       const { id, data } = action.payload;
       const userIndex = state.users.findIndex((user) => user.id === id);
       const updatedUsers = [...state.users];

@@ -9,8 +9,18 @@ import Button from "@mui/material/Button";
 // Material Ui Icons
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import AlertDialog from "./AlertDialog";
 
-const DataView = ({ users, handleEditOpen, handleDelete }) => {
+const DataView = ({
+  users,
+  handleEditOpen,
+  handleDelete,
+  handleDialogOpen,
+  confirmDialogOpen,
+  handleDialogClose,
+  handleConfirmAction,
+  actionType,
+}) => {
   const rows = users.map((user) => ({
     id: user.id,
     firstname: user.name["firstname"],
@@ -73,7 +83,7 @@ const DataView = ({ users, handleEditOpen, handleDelete }) => {
           </Button>
           <Button
             className="btn_delete"
-            onClick={() => handleDelete(params.row)}
+            onClick={() => handleDialogOpen(params.row, "delete")}
           >
             <DeleteIcon></DeleteIcon>
           </Button>
@@ -81,6 +91,9 @@ const DataView = ({ users, handleEditOpen, handleDelete }) => {
       ),
     },
   ];
+
+  const viewportHeight = window.innerHeight;
+  const gridHeight = viewportHeight * 0.65;
 
   return (
     <>
@@ -91,14 +104,25 @@ const DataView = ({ users, handleEditOpen, handleDelete }) => {
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 8,
+                pageSize: Math.floor(gridHeight / 52),
               },
             },
           }}
-          pageSizeOptions={[8]}
+          pageSizeOptions={[Math.floor(gridHeight / 52)]}
           disableColumnSelector
         ></DataGrid>
       </Box>
+      <AlertDialog
+        open={confirmDialogOpen}
+        onClose={handleDialogClose}
+        onConfirm={handleConfirmAction}
+        title={actionType === "edit" ? "Editar usuário" : "Excluir usuário"}
+        message={
+          actionType === "edit"
+            ? "Deseja realmente editar este usuário?"
+            : "Deseja realmente excluir este usuário?"
+        }
+      ></AlertDialog>
     </>
   );
 };

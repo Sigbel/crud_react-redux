@@ -12,8 +12,19 @@ import { useDispatch, useSelector } from "react-redux";
 // Reducers
 import { addUser } from "../redux/users/usersSlice";
 
+// Components
+import AlertDialog from "./AlertDialog";
 
-const ModalWindow = ({ open, setOpen, data, handleEdit }) => {
+const ModalWindow = ({
+  open,
+  setOpen,
+  data,
+  handleDialogOpen,
+  confirmDialogOpen,
+  handleDialogClose,
+  handleConfirmAction,
+  actionType,
+}) => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users.users);
 
@@ -42,7 +53,7 @@ const ModalWindow = ({ open, setOpen, data, handleEdit }) => {
         phone: data.phone,
         city: data.city,
       });
-    }
+    } 
   }, [data]);
 
   useEffect(() => {
@@ -101,94 +112,111 @@ const ModalWindow = ({ open, setOpen, data, handleEdit }) => {
   };
 
   return (
-    <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box sx={style}>
-        <Box display="flex" gap="10px" alignItems="center" marginBottom="20px">
-          <PersonAddAltIcon></PersonAddAltIcon>
-          <Typography
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
-            fontFamily="consolas"
+    <>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Box
+            display="flex"
+            gap="10px"
+            alignItems="center"
+            marginBottom="20px"
           >
-            Novo Cadastro
-          </Typography>
-        </Box>
-        <TextField
-          className="input-add"
-          label="Nome"
-          variant="outlined"
-          name="firstname"
-          value={modalData.firstname}
-          onChange={handleInputChange}
-        ></TextField>
-        <TextField
-          className="input-add"
-          label="Sobrenome"
-          variant="outlined"
-          name="lastname"
-          value={modalData.lastname}
-          onChange={handleInputChange}
-        ></TextField>
-        <TextField
-          className="input-add"
-          label="Usuário"
-          variant="outlined"
-          name="username"
-          value={modalData.username}
-          onChange={handleInputChange}
-        ></TextField>
-        <TextField
-          className="input-add"
-          label="Email"
-          variant="outlined"
-          name="email"
-          value={modalData.email}
-          onChange={handleInputChange}
-        ></TextField>
-        <TextField
-          className="input-add"
-          label="Telefone"
-          variant="outlined"
-          name="phone"
-          value={modalData.phone}
-          onChange={handleInputChange}
-        ></TextField>
-        <TextField
-          className="input-add"
-          label="Cidade"
-          variant="outlined"
-          name="city"
-          value={modalData.city}
-          onChange={handleInputChange}
-        ></TextField>
-        <Box display="flex" justifyContent="flex-end" gap="10px">
-          <Button variant="outlined" onClick={() => cleanLabels()}>
-            Limpar
-          </Button>
-          {data ? (
-            <Button
-              variant="contained"
-              onClick={() => {
-                cleanLabels();
-                handleEdit(modalEdit);
-              }}
+            <PersonAddAltIcon></PersonAddAltIcon>
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+              fontFamily="consolas"
             >
-              Editar
+              Novo Cadastro
+            </Typography>
+          </Box>
+          <TextField
+            className="input-add"
+            label="Nome"
+            variant="outlined"
+            name="firstname"
+            value={modalData.firstname}
+            onChange={handleInputChange}
+          ></TextField>
+          <TextField
+            className="input-add"
+            label="Sobrenome"
+            variant="outlined"
+            name="lastname"
+            value={modalData.lastname}
+            onChange={handleInputChange}
+          ></TextField>
+          <TextField
+            className="input-add"
+            label="Usuário"
+            variant="outlined"
+            name="username"
+            value={modalData.username}
+            onChange={handleInputChange}
+          ></TextField>
+          <TextField
+            className="input-add"
+            label="Email"
+            variant="outlined"
+            name="email"
+            value={modalData.email}
+            onChange={handleInputChange}
+          ></TextField>
+          <TextField
+            className="input-add"
+            label="Telefone"
+            variant="outlined"
+            name="phone"
+            value={modalData.phone}
+            onChange={handleInputChange}
+          ></TextField>
+          <TextField
+            className="input-add"
+            label="Cidade"
+            variant="outlined"
+            name="city"
+            value={modalData.city}
+            onChange={handleInputChange}
+          ></TextField>
+          <Box display="flex" justifyContent="flex-end" gap="10px">
+            <Button variant="outlined" onClick={() => cleanLabels()}>
+              Limpar
             </Button>
-          ) : (
-            <Button variant="contained" onClick={() => handleAddData()}>
-              Incluir
-            </Button>
-          )}
+            {data ? (
+              <Button
+                variant="contained"
+                onClick={() => {
+                  handleDialogOpen(modalEdit, "edit");
+                }}
+              >
+                Editar
+              </Button>
+            ) : (
+              <Button variant="contained" onClick={() => handleAddData()}>
+                Incluir
+              </Button>
+            )}
+          </Box>
         </Box>
-      </Box>
-    </Modal>
+      </Modal>
+      <AlertDialog
+        open={confirmDialogOpen}
+        onClose={handleDialogClose}
+        onConfirm={handleConfirmAction}
+        title={actionType === "edit" ? "Editar usuário" : "Excluir usuário"}
+        message={
+          actionType === "edit"
+            ? "Deseja realmente editar este usuário?"
+            : "Deseja realmente excluir este usuário?"
+        }
+      ></AlertDialog>
+    </>
   );
 };
 
